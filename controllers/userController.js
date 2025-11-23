@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"; // password hashing karanna bcryptjs library eka im
 
 import jwt from "jsonwebtoken"; // JWT token generate karanna jwt library eka import karanawa
 
+
 // ==================================================       
 // POST : SAVE USER DATA
 // ==================================================
@@ -73,6 +74,9 @@ export const userLogin = async (req, res) => {
     if (isPasswordCorrect) {    // password correct nam
 
      // Generate JWT token --------------------------------------------------
+
+      const secret = process.env.JWT_SECRET; // dev fallback; use .env in production
+
       const token = jwt.sign(
           { 
             email: user.email,
@@ -81,7 +85,8 @@ export const userLogin = async (req, res) => {
             role: user.role,
             imgurl: user.img
           },
-          "abcd-1234", // secret key eka
+          secret, // secret key eka
+          { expiresIn: "1h" } // token eka 1 hour valid wenawa
         );  
       //-----------------------------------------------------------------------
         return res.status(200).json({
@@ -99,9 +104,7 @@ export const userLogin = async (req, res) => {
   }
 
   } catch (error) {
-
     console.error("Error during login:", error);
-
     return res.status(500).json({
       status: "error",
       message: "Internal server error"

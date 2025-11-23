@@ -16,7 +16,10 @@ export const authMiddleware = (req, res, next) => {
         const token = stringToken.replace("Bearer ", ""); // Bearer token eka nisa Bearer kiyala thiyana eka remove karanawa
         console.log("Token :",token);
 
-        jwt.verify(token, "abcd-1234", (err, decoded) => {  // token eka verify karanawa secretkey ekata anusaren
+        const secret = process.env.JWT_SECRET; // secret key eka .env file eke thiyana JWT_SECRET variable eka athuleuth gannawa
+        console.log("Secret Key :",secret);
+
+        jwt.verify(token, secret, (err, decoded) => {  // token eka verify karanawa secretkey ekata anusaren
 
             if (decoded != null) {
                 console.log("Decoded Token :",decoded);

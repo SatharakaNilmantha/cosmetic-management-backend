@@ -6,7 +6,7 @@ import Product from "../models/product.js"; // student model eka import karanawa
 export const saveProduct = async (req, res) => {
   try{
 
-        console.log(req.userData) ; // middleware eke thiyana userData eka meka athuleuth ganna puluwan
+        console.log("user in save product: "+ JSON.stringify(req.userData)) ; // middleware eke thiyana userData eka meka athuleuth ganna puluwan
 
         // userData naththam aththatama login wela nathiwa product ekak add karanna ba kiyala pennanawa
         if(req.userData == null){
@@ -23,7 +23,6 @@ export const saveProduct = async (req, res) => {
                 message: "Permission denied. Only admins can add products."
             });
         }
-
         const product = new Product({
             name: req.body.name,
             price: req.body.price,
