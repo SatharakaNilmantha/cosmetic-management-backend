@@ -77,7 +77,9 @@ export const userLogin = async (req, res) => {
 
       const secret = process.env.JWT_SECRET; // dev fallback; use .env in production
 
-    
+
+
+      
       const token = jwt.sign(
           { 
             email: user.email,
