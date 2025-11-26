@@ -12,6 +12,24 @@ export const saveUser = async (req, res) => {
   
    try{
 
+
+
+       // userData naththam aththatama login wela nathiwa product ekak add karanna ba kiyala pennanawa
+        if(req.userData == null){
+            return res.status(401).json({
+                status: "error",
+                message: "Authentication required. Please log in."
+            });
+        }
+
+        // userData thiyenawanam e userta admin role ekak thiyenawanam naththam user kenek add karanna ba kiyala pennanawa
+        if(req.userData.role !== 'admin'){
+            return res.status(403).json({
+                status: "error",
+                message: "Permission denied. Only admins can add users."
+            });
+        }
+
     const existEmail = await User.findOne({ email: req.body.email }); // email eka adala user ekak thiyenawada kiyala balanawa
 
     if (existEmail != null) {  // email eka adala user ekak thiyenawanam
@@ -79,7 +97,7 @@ export const userLogin = async (req, res) => {
 
 
 
-      
+
       const token = jwt.sign(
           { 
             email: user.email,
@@ -140,3 +158,18 @@ export const getAllUsers = async (req, res) => {
      });
    }
 };
+
+
+export function isAdmin(req, res) {
+      // userData naththam aththatama login wela nathiwa product ekak add karanna ba kiyala pennanawa
+        if(req.userData == null){
+            return false;
+        }
+
+        // userData thiyenawanam e userta admin role ekak thiyenawanam naththam product ekak add karanna ba kiyala pennanawa
+        if(req.userData.role !== 'admin'){
+            return false;
+        }
+
+        return true;
+}
