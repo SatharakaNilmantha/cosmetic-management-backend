@@ -10,7 +10,6 @@ export const authMiddleware = (req, res, next) => {
 
     console.log("beforeToken :",stringToken); 
 
-    
     //token eka thiyenawanam
     if (stringToken != null) {
 
