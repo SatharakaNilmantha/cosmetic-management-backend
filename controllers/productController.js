@@ -51,10 +51,11 @@ export const saveProduct = async (req, res) => {
 // ==================================================
 export const  getProducts = async (req, res) => {
 
+    
     try {
 
       if (isAdmin(req,res)){
-        
+
         const products = await Product.find(); // database eke thiyana product data tika gannawa    
         return  res.status(200).json({
             status: "success",
