@@ -20,6 +20,10 @@ import { authMiddleware } from "./middleware/authMiddleware.js";// authMiddlewar
 const app = express();        // express eka app variable ekata assign karanawa
 app.use(bodyParser.json());  // client එකෙන් එන JSON data වැටගත් කරගන්න(json data tika read karanna Saha json type widihata convert karanna)
 
+
+// =================================================================================================
+// Authentication Middleware එක set කිරීම
+// =================================================================================================
 app.use(authMiddleware); // authMiddleware eka app eke use karanawa
 
 
@@ -60,7 +64,7 @@ function successfullyStart(){
 }
 
 // yata eka pawichchi karana eka lesi meya hama thanatama pawichchi wen nathi nisa
-app.listen(3000,()=>{
+app.listen(port,()=>{
    console.log(`server is run on port ${port}`);
    }
 );
