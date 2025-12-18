@@ -95,9 +95,6 @@ export const userLogin = async (req, res) => {
 
       const secret = process.env.JWT_SECRET; // dev fallback; use .env in production
 
-
-
-
       const token = jwt.sign(
           { 
             email: user.email,
@@ -161,12 +158,12 @@ export const getAllUsers = async (req, res) => {
 
 
 export function isAdmin(req, res) {
-      // userData naththam aththatama login wela nathiwa product ekak add karanna ba kiyala pennanawa
+      // userData naththam aththatama login wela nathiwa adala  wade karanna ba kiyala pennanawa
         if(req.userData == null){
             return false;
         }
 
-        // userData thiyenawanam e userta admin role ekak thiyenawanam naththam product ekak add karanna ba kiyala pennanawa
+        // userData thiyenawanam e userta admin role ekak admin neweinam adala wade karanna ba kiyala pennanawa
         if(req.userData.role !== 'admin'){
             return false;
         }

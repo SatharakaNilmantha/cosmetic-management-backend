@@ -79,3 +79,71 @@ export const  getProducts = async (req, res) => {
     }
   
 }
+
+// ==================================================
+// DELETE : DELETE PRODUCT DATA
+// ==================================================
+export const deleteProduct = async (req, res) => {
+    try {
+        if (isAdmin(req,res)){
+            
+            await Product.findOneAndDelete({ productId: req.params.id }); // database eke thiyana adala product data eka delete karanawa
+            
+            return res.status(200).json({ 
+                status: "success",
+                message: "Product deleted successfully"
+            });
+        }else{
+            return res.status(403).json({
+                status: "error",
+                message: "You do not have permission to delete products !."
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            status: "error",    
+            message: "Internal server error",
+            error: error
+        });
+    }
+}
+
+
+// ==================================================
+// UPDATE : UPDATE PRODUCT DATA
+// ==================================================
+export const updateProduct = async (req, res) => {
+    
+    try {
+        if (isAdmin(req,res)){  
+            const updatedData = {
+                name : req.body.name,
+                altNames : req.body.altNames,
+                description : req.body.description,
+                imges : req.body.imges,
+                labeledPrice : req.body.labeledPrice,
+                price : req.body.price,
+                stoke : req.body.stoke
+            };
+
+            await Product.findOneAndUpdate({ productId: req.params.id }, updatedData); // database eke thiyana adala product data eka update karanawa
+
+            return res.status(200).json({
+                status: "success",
+                message: "Product updated successfully"
+            });
+
+        } else {
+            return res.status(403).json({
+                status: "error",
+                message: "You do not have permission to update products !."
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            status: "error",
+            message: "Internal server error",
+            error: error
+        });
+    }
+}
