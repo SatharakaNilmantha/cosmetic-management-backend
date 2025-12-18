@@ -17,7 +17,7 @@ export const authMiddleware = (req, res, next) => {
         console.log("Token :",token);
 
         const secret = process.env.JWT_SECRET; // secret key eka .env file eke thiyana JWT_SECRET variable eka athuleuth gannawa
-        console.log("Secret Key :",secret);
+        console.log("Secret Key :",secret); 
 
         jwt.verify(token, secret, (err, decoded) => {  // token eka verify karanawa secretkey ekata anusaren
 
