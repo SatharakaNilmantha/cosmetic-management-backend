@@ -147,3 +147,40 @@ export const updateProduct = async (req, res) => {
         });
     }
 }
+
+// ==================================================
+// Get : get single product by id
+// ==================================================
+
+export const getProductById = async (req, res) => {
+    try {
+
+        const product = await Product.findOne({ productId: req.params.id });
+
+        if (!product) {
+            return res.status(404).json({
+                status: "error",
+                message: "Product not found"
+            });
+        }  
+
+        if (!isAdmin(req,res) && !product.isAvailable){    // non-admin user kenek nam product eka available naththam pennanna be
+            return res.status(403).json({
+                status: "error",
+                message: "You do not have permission to view this product !."
+            });
+        } 
+
+        return res.status(200).json({   // product eka pennanawa (admin kenek nam hama product ekakma pennanawa)
+            status: "success",
+            data: product
+        }); 
+
+    } catch (error) {
+        return res.status(500).json({
+            status: "error",    
+            message: "Internal server error",
+            error: error
+        });
+    }
+}
