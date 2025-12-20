@@ -9,6 +9,7 @@ import mongoose from "mongoose";  // mongoose eka import karanawa (mongo db ekat
 
 import productRouter from "./routes/productRouter.js"; // productRouter eka import karanawa
 import userRouter from "./routes/userRouter.js"; // userRouter eka import karanawa
+import orderRouter from "./routes/orderRouter.js"; // orderRouter eka import karanawa
 
 import { authMiddleware } from "./middleware/authMiddleware.js";// authMiddleware eka import karanawa
 
@@ -50,6 +51,8 @@ app.use("/products", productRouter);// productRouter eka app eke use karanawa /p
 
 
 app.use("/users", userRouter); // userRouter eka app eke use karanawa /users path ekata
+
+app.use("/orders", orderRouter); // orderRouter eka app eke use karanawa /orders path ekata
 
 
 
