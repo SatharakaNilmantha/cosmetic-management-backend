@@ -81,9 +81,10 @@ export const userLogin = async (req, res) => {
 
     // Check if user exists 
     if (user == null) {
+      console.error("Login failed: User not found");
       return res.status(404).json({
         status: "error",
-        message: "User not found"
+        message: "Email or password is incorrect"
       });
     }
 
@@ -110,13 +111,15 @@ export const userLogin = async (req, res) => {
         return res.status(200).json({
           status: "success",
           message: "Login successful",
-          token: token
+          token: token,
+          role: user.role
         });
 
     }else {
+      console.error("Login failed: Incorrect password");
       return res.status(401).json({
         status: "error",
-        message: "Invalid password"
+        message: "Invalid email or password"
       });
     
   }
@@ -132,6 +135,51 @@ export const userLogin = async (req, res) => {
   }
 
 };
+
+// ==================================================       
+// POST : REGISTER USER
+// ==================================================
+export const registerUser = async (req, res) => {
+  
+   try{
+
+    const existEmail = await User.findOne({ email: req.body.email }); // email eka adala user ekak thiyenawada kiyala balanawa
+
+    if (existEmail != null) {  // email eka adala user ekak thiyenawanam
+        return res.status(400).json({
+            status: "error",
+            message: "Email already exists"
+        });
+    }
+
+     const hashPassword =  bcrypt.hashSync(req.body.password, 10); // password eka hash karanawa 10 salt rounds walin
+
+     const user = new User({    
+      email : req.body.email,
+      firstName : req.body.firstName,
+      lastName : req.body.lastName,
+      password : hashPassword,    // <-- මෙතන hashed password save වෙනවා
+      role : req.body.role
+     });
+
+     await user.save();
+
+     return res.status(201).json({ 
+      status: "success",
+      message: "User registered successfully" 
+   });
+
+   } catch (error) {
+     console.error("Error saving user:", error);
+
+     return res.status(500).json({ 
+      status: "error",
+      message: "Internal server error" 
+     });
+
+   }
+};
+
 
 // ==================================================       
 // GET : FETCH ALL USERS
