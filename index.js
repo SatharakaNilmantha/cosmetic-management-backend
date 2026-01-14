@@ -11,6 +11,8 @@ import productRouter from "./routes/productRouter.js"; // productRouter eka impo
 import userRouter from "./routes/userRouter.js"; // userRouter eka import karanawa
 import orderRouter from "./routes/orderRouter.js"; // orderRouter eka import karanawa
 
+import cors from "cors";  // CORS eka import karanawa
+
 import { authMiddleware } from "./middleware/authMiddleware.js";// authMiddleware eka import karanawa
 
 
@@ -19,6 +21,18 @@ import { authMiddleware } from "./middleware/authMiddleware.js";// authMiddlewar
 // Express app එක ready කිරීම
 // ======================================
 const app = express();        // express eka app variable ekata assign karanawa
+
+// =================================================================================================
+// CORS Middleware එක set කිරීම
+// =================================================================================================
+app.use(cors(
+    {
+        origin: "http://localhost:5173",  // allow all origins
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        allowedHeaders: ["Content-Type", "Authorization"]
+    }   
+));  // CORS eka app eke use karanawa
+
 app.use(bodyParser.json());  // client එකෙන් එන JSON data වැටගත් කරගන්න(json data tika read karanna Saha json type widihata convert karanna)
 
 
@@ -47,15 +61,12 @@ mongoose.connect(mongoURL)
 // Routes එක set කිරීම
 // ======================================
 
-app.use("/products", productRouter);// productRouter eka app eke use karanawa /products path ekata
+app.use("/api/products", productRouter);// productRouter eka app eke use karanawa /products path ekata
 
 
-app.use("/users", userRouter); // userRouter eka app eke use karanawa /users path ekata
+app.use("/api/users", userRouter); // userRouter eka app eke use karanawa /users path ekata
 
-app.use("/orders", orderRouter); // orderRouter eka app eke use karanawa /orders path ekata
-
-
-
+app.use("/api/orders", orderRouter); // orderRouter eka app eke use karanawa /orders path ekata
 // ====================================== 
 // Server එක start කරන කොටස
 // ======================================
